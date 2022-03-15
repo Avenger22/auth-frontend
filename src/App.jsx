@@ -11,7 +11,7 @@ function App () {
     const email = e.target.email.value
     const password = e.target.password.value
 
-    fetch('http://localhost:4000/sign-up', {
+    fetch('http://localhost:4000/users', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -41,7 +41,7 @@ function App () {
     const email = e.target.email.value
     const password = e.target.password.value
 
-    fetch('http://localhost:4000/sign-in', {
+    fetch('http://localhost:4000/login', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -100,48 +100,88 @@ function App () {
 
   }, [])
 
-  return (
+  if (user === null) {
 
-    <div className='App'>
+    return (
 
-      <h1>Hello there, {user ? user.email : 'stranger'}!</h1>
-      {user ? <button onClick={signOut}>SIGN OUT</button> : null}
+      <div className='App'>
 
-      <div>
+        <h1>Hello there, {user ? user.email : 'stranger'}!</h1>
+        {user ? <button onClick={signOut}>SIGN OUT</button> : null}
 
-        <form onSubmit={signUp}>
+        <div>
 
-          <h2>Don't have an account? Sign up!</h2>
-          <input type='email' required placeholder='email' name='email' />
-          <input
-            type='password'
-            required
-            placeholder='password'
-            name='password'
-          />
-          <button>SIGN UP</button>
-          
-        </form>
+          <form onSubmit={signUp}>
 
-        <form onSubmit={signIn}>
+            <h2>Don't have an account? Sign up!</h2>
+            <input type='email' required placeholder='email' name='email' />
+            
+            <input
+              type='password'
+              required
+              placeholder='password'
+              name='password'
+            />
 
-          <h2>Already have an account? Sign in!</h2>
-          <input type='email' required placeholder='email' name='email' />
-          <input
-            type='password'
-            required
-            placeholder='password'
-            name='password'
-          />
-          <button>SIGN IN</button>
+            <button>SIGN UP</button>
+            
+          </form>
 
-        </form>
+          <form onSubmit={signIn}>
+
+            <h2>Already have an account? Sign in!</h2>
+            <input type='email' required placeholder='email' name='email' />
+            
+            <input
+              type='password'
+              required
+              placeholder='password'
+              name='password'
+            />
+            
+            <button>SIGN IN</button>
+
+          </form>
+
+        </div>
 
       </div>
 
-    </div>
+    )
 
-  )
+  }
+
+  else {
+
+    return (
+
+      <div className='App'>
+
+        <h1>Hello there, {user.name}!</h1>
+        <button onClick={signOut}>SIGN OUT</button>
+  
+        <ul>
+
+          {
+            
+            user.photos.map(photo => (
+
+              <li>
+                <h2>{photo.title}</h2>
+                <img src={photo.imageUrl} alt='' />
+              </li>
+
+            ))
+
+          }
+
+        </ul>
+
+      </div>
+
+    )
+
+  }
 
 }
 
